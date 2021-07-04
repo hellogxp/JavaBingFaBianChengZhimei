@@ -9,32 +9,33 @@ import java.util.Queue;
  * @Date 2021/6/29 9:46 AM
  * @Version 1.0
  */
-public class Producer implements Runnable{
-    private Queue<Integer> queue;
+public class Producer implements Runnable {
 
-    public void setQueue(Queue<Integer> queue) {
-        this.queue = queue;
-    }
+   private Queue<Integer> queue;
 
-    @Override
-    public void run() {
-        produce();
-    }
+   public void setQueue(Queue<Integer> queue) {
+      this.queue = queue;
+   }
 
-    public void produce() {
-        synchronized (queue) {
-            while (queue.size() == 3) {
-                try {
-                    queue.wait();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+   @Override
+   public void run() {
+      produce();
+   }
+
+   public void produce() {
+      synchronized (queue) {
+         while (queue.size() == 3) {
+            try {
+               queue.wait();
+            } catch (InterruptedException e) {
+               e.printStackTrace();
             }
-            for (int i = 0; i < 3; i++) {
-                queue.add(i);
-                System.out.println("Produce: " + i);
-                queue.notify();
-            }
-        }
-    }
+         }
+         for (int i = 0; i < 3; i++) {
+            queue.add(i);
+            System.out.println("Produce: " + i);
+            queue.notify();
+         }
+      }
+   }
 }
